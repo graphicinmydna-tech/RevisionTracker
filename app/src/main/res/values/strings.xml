@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Revision Tracker</string>
+    <string name="dashboard_title">BCS Syllabus Dashboard</string>
+    <string name="add_topic">Add Topic</string>
+    <string name="topic_title_hint">Sub-topic title</string>
+    <string name="topic_category_hint">Classification (e.g. Ancient, Modern, Grammar)</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_topics_yet">No topics yet. Tap + to add your first sub-topic.</string>
+</resources>
