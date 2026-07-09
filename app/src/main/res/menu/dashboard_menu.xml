@@ -5,4 +5,14 @@
         android:title="Reminder time"
         android:icon="@drawable/ic_clock"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_export"
+        android:title="Export backup"
+        android:icon="@drawable/ic_backup"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_import"
+        android:title="Import backup"
+        android:icon="@drawable/ic_restore"
+        app:showAsAction="ifRoom" />
 </menu>

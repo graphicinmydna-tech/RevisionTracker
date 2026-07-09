@@ -34,9 +34,8 @@
             android:parentActivityName=".ui.TopicListActivity" />
 
         <receiver
-            android:name=".receiver.ReminderReceiver"
+            android:name=".receiver.DailyDigestReceiver"
             android:exported="false" />
-
         <receiver
             android:name=".receiver.BootReceiver"
             android:exported="true">

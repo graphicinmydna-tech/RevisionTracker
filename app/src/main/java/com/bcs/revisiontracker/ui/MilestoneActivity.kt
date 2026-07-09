@@ -3,12 +3,16 @@ package com.bcs.revisiontracker.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.bcs.revisiontracker.R
+import com.bcs.revisiontracker.data.Milestone
 import com.bcs.revisiontracker.data.PrefsManager
+import com.bcs.revisiontracker.data.Subject
+import com.bcs.revisiontracker.data.Topic
 import com.bcs.revisiontracker.databinding.ActivityMilestoneBinding
 import com.bcs.revisiontracker.util.NotificationHelper
-import com.bcs.revisiontracker.util.ReminderScheduler
 import com.bcs.revisiontracker.util.SpacedRepetition
 
 class MilestoneActivity : AppCompatActivity() {
@@ -31,7 +35,6 @@ class MilestoneActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
         prefs = PrefsManager(this)
-        binding.recyclerMilestones.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onResume() {
@@ -47,23 +50,66 @@ class MilestoneActivity : AppCompatActivity() {
         binding.textTopicHeader.text = topic.title
         binding.textTopicCategory.text = topic.category
 
-        binding.recyclerMilestones.adapter = MilestoneAdapter(topic.milestones) { milestone, _ ->
-            val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 9
-            val minute = if (prefs.hasReminderTime()) prefs.getReminderMinute() else 0
-            val nextDueLabel = SpacedRepetition.completeRoundAndScheduleNext(topic, milestone.round, hour, minute)
-            prefs.saveSubjects(subjects)
+        binding.containerMilestones.removeAllViews()
 
-            NotificationHelper.notifyMilestoneCompleted(
-                this, subjectName, topic.title, milestone.round, nextDueLabel
-            )
+        val finished = topic.milestones.filter { it.completed }
+        val revision = topic.milestones.filter { !it.completed }
 
-            val next = topic.milestones.firstOrNull { it.round == milestone.round + 1 }
-            if (next != null && next.dueAtEpochMillis > 0) {
-                ReminderScheduler.schedule(this, subjectName, topic.title, next.round, next.dueAtEpochMillis)
-            }
-
-            refresh()
+        if (finished.isNotEmpty()) {
+            addSectionHeader("Finished")
+            finished.forEach { addMilestoneRow(it, topic, subjects) }
         }
+        if (revision.isNotEmpty()) {
+            addSectionHeader("Revision")
+            revision.forEach { addMilestoneRow(it, topic, subjects) }
+        }
+    }
+
+    private fun addSectionHeader(title: String) {
+        val header = layoutInflater.inflate(R.layout.item_section_header, binding.containerMilestones, false) as TextView
+        header.text = title
+        binding.containerMilestones.addView(header)
+    }
+
+    private fun addMilestoneRow(milestone: Milestone, topic: Topic, subjects: List<Subject>) {
+        val row = layoutInflater.inflate(R.layout.item_milestone, binding.containerMilestones, false)
+        val check = row.findViewById<CheckBox>(R.id.checkMilestoneDone)
+        val label = row.findViewById<TextView>(R.id.textRoundLabel)
+        val date = row.findViewById<TextView>(R.id.textRoundDate)
+        val status = row.findViewById<TextView>(R.id.textRoundStatus)
+
+        label.text = "Round ${milestone.round}  (+${milestone.offsetDays} day${if (milestone.offsetDays > 1) "s" else ""})"
+
+        val unlocked = milestone.dueAtEpochMillis > 0
+        check.setOnCheckedChangeListener(null)
+        check.isChecked = milestone.completed
+        check.isEnabled = unlocked && !milestone.completed
+
+        date.text = when {
+            milestone.completed -> "Completed ${SpacedRepetition.formatDate(milestone.completedAtEpochMillis)}"
+            unlocked -> "Due ${SpacedRepetition.formatDate(milestone.dueAtEpochMillis)}"
+            else -> "Locked — finish the previous round first"
+        }
+
+        status.text = if (milestone.completed) "DONE" else if (unlocked) "PENDING" else ""
+        status.setTextColor(getColor(if (milestone.completed) R.color.done else R.color.pending))
+
+        check.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked && !milestone.completed) {
+                val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 8
+                val minute = if (prefs.hasReminderTime()) prefs.getReminderMinute() else 0
+                val nextDueLabel = SpacedRepetition.completeRoundAndScheduleNext(topic, milestone.round, hour, minute)
+                prefs.saveSubjects(subjects)
+
+                NotificationHelper.notifyMilestoneCompleted(
+                    this, subjectName, topic.title, milestone.round, nextDueLabel
+                )
+
+                refresh()
+            }
+        }
+
+        binding.containerMilestones.addView(row)
     }
 
     companion object {

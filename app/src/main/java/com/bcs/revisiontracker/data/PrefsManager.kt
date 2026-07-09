@@ -24,6 +24,25 @@ class PrefsManager(context: Context) {
         return list
     }
 
+    fun exportRawJson(): String {
+        val subjects = loadSubjects()
+        return JSONArray(subjects.map { it.toJson() }).toString(2)
+    }
+
+    fun importRawJson(json: String): Boolean {
+        return try {
+            val arr = JSONArray(json)
+            val list = mutableListOf<Subject>()
+            for (i in 0 until arr.length()) {
+                list.add(Subject.fromJson(arr.getJSONObject(i)))
+            }
+            saveSubjects(list)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     fun saveSubjects(subjects: List<Subject>) {
         val arr = JSONArray(subjects.map { it.toJson() })
         prefs.edit().putString(KEY_SUBJECTS, arr.toString()).apply()
