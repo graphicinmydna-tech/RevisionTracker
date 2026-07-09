@@ -45,9 +45,33 @@ class TopicListActivity : AppCompatActivity() {
         val subjects = prefs.loadSubjects()
         val subject = prefs.findSubject(subjects, subjectName) ?: return
         binding.textEmpty.visibility = if (subject.topics.isEmpty()) View.VISIBLE else View.GONE
-        binding.recyclerTopics.adapter = TopicAdapter(subject.topics) { topic ->
-            MilestoneActivity.start(this, subjectName, topic.id)
+        binding.recyclerTopics.adapter = TopicAdapter(
+            subject.topics,
+            onClick = { topic -> MilestoneActivity.start(this, subjectName, topic.id) },
+            onLongClick = { topic -> confirmDeleteTopic(topic) }
+        )
+    }
+
+    private fun confirmDeleteTopic(topic: Topic) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete topic?")
+            .setMessage("\"${topic.title}\" and all its revision progress will be permanently removed.")
+            .setPositiveButton("Delete") { _, _ -> deleteTopic(topic) }
+            .setNegativeButton(getString(com.bcs.revisiontracker.R.string.cancel), null)
+            .show()
+    }
+
+    private fun deleteTopic(topic: Topic) {
+        val subjects = prefs.loadSubjects()
+        val subject = prefs.findSubject(subjects, subjectName) ?: return
+        subject.topics.removeAll { it.id == topic.id }
+        prefs.saveSubjects(subjects)
+
+        for (round in 1..5) {
+            ReminderScheduler.cancel(this, subjectName, topic.title, round)
         }
+
+        refreshList()
     }
 
     private fun showAddTopicDialog() {
@@ -70,8 +94,9 @@ class TopicListActivity : AppCompatActivity() {
         val subject = prefs.findSubject(subjects, subjectName) ?: return
         val topic = Topic(title = title, category = category)
 
-        // Seed and schedule Round 1 ("+1 Day") immediately on creation.
-        SpacedRepetition.initializeFirstRound(topic)
+        val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 9
+        val minute = if (prefs.hasReminderTime()) prefs.getReminderMinute() else 0
+        SpacedRepetition.initializeFirstRound(topic, hour, minute)
         subject.topics.add(topic)
         prefs.saveSubjects(subjects)
 
