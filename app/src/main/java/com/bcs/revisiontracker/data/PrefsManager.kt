@@ -4,11 +4,6 @@ import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
 
-/**
- * Single source of truth for local, offline persistence.
- * Everything is sandboxed inside the "bcs_data" SharedPreferences file
- * as a single JSON blob keyed by "subjects_json". No network, no external accounts.
- */
 class PrefsManager(context: Context) {
 
     private val prefs = context.applicationContext
@@ -17,7 +12,6 @@ class PrefsManager(context: Context) {
     fun loadSubjects(): MutableList<Subject> {
         val raw = prefs.getString(KEY_SUBJECTS, null)
         if (raw.isNullOrEmpty()) {
-            // First launch: seed the 9 compulsory subjects with empty topic lists.
             val seeded = CompulsorySubjects.NAMES.map { Subject(name = it) }.toMutableList()
             saveSubjects(seeded)
             return seeded
@@ -41,8 +35,21 @@ class PrefsManager(context: Context) {
     fun findTopic(subjects: List<Subject>, subjectName: String, topicId: String): Topic? =
         findSubject(subjects, subjectName)?.topics?.firstOrNull { it.id == topicId }
 
+    fun getReminderHour(): Int = prefs.getInt(KEY_REMINDER_HOUR, -1)
+    fun getReminderMinute(): Int = prefs.getInt(KEY_REMINDER_MINUTE, -1)
+    fun hasReminderTime(): Boolean = getReminderHour() != -1 && getReminderMinute() != -1
+
+    fun setReminderTime(hour: Int, minute: Int) {
+        prefs.edit()
+            .putInt(KEY_REMINDER_HOUR, hour)
+            .putInt(KEY_REMINDER_MINUTE, minute)
+            .apply()
+    }
+
     companion object {
         private const val PREFS_NAME = "bcs_data"
         private const val KEY_SUBJECTS = "subjects_json"
+        private const val KEY_REMINDER_HOUR = "reminder_hour"
+        private const val KEY_REMINDER_MINUTE = "reminder_minute"
     }
 }
