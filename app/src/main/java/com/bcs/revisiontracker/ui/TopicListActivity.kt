@@ -11,7 +11,6 @@ import com.bcs.revisiontracker.data.PrefsManager
 import com.bcs.revisiontracker.data.Topic
 import com.bcs.revisiontracker.databinding.ActivityTopicListBinding
 import com.bcs.revisiontracker.databinding.DialogAddTopicBinding
-import com.bcs.revisiontracker.util.ReminderScheduler
 import com.bcs.revisiontracker.util.SpacedRepetition
 
 class TopicListActivity : AppCompatActivity() {
@@ -66,11 +65,6 @@ class TopicListActivity : AppCompatActivity() {
         val subject = prefs.findSubject(subjects, subjectName) ?: return
         subject.topics.removeAll { it.id == topic.id }
         prefs.saveSubjects(subjects)
-
-        for (round in 1..5) {
-            ReminderScheduler.cancel(this, subjectName, topic.title, round)
-        }
-
         refreshList()
     }
 
@@ -94,14 +88,11 @@ class TopicListActivity : AppCompatActivity() {
         val subject = prefs.findSubject(subjects, subjectName) ?: return
         val topic = Topic(title = title, category = category)
 
-        val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 9
+        val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 8
         val minute = if (prefs.hasReminderTime()) prefs.getReminderMinute() else 0
         SpacedRepetition.initializeFirstRound(topic, hour, minute)
         subject.topics.add(topic)
         prefs.saveSubjects(subjects)
-
-        val round1 = topic.milestones.first { it.round == 1 }
-        ReminderScheduler.schedule(this, subjectName, topic.title, 1, round1.dueAtEpochMillis)
 
         refreshList()
     }
