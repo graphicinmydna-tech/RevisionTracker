@@ -31,8 +31,6 @@ class MilestoneAdapter(
         val m = milestones[position]
         holder.label.text = "Round ${m.round}  (+${m.offsetDays} day${if (m.offsetDays > 1) "s" else ""})"
 
-        // A round can only be checked off once it actually has a due date,
-        // i.e. the previous round has been completed (or it's Round 1).
         val unlocked = m.dueAtEpochMillis > 0
         holder.check.setOnCheckedChangeListener(null)
         holder.check.isChecked = m.completed

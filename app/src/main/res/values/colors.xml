@@ -3,12 +3,10 @@
     <color name="primary_dark">#000000</color>
     <color name="accent">#F9A825</color>
 
-    <!-- True black background, softly-elevated gray cards (Apple-style hierarchy) -->
     <color name="background">#000000</color>
     <color name="surface">#1C1C1E</color>
     <color name="surface_alt">#26262A</color>
 
-    <!-- Off-white text with deliberate contrast steps by importance -->
     <color name="text_primary">#F2F2F2</color>
     <color name="text_secondary">#9B9B9F</color>
     <color name="text_tertiary">#6E6E73</color>
