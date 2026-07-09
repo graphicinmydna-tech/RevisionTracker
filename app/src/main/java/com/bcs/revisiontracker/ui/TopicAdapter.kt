@@ -11,7 +11,8 @@ import com.bcs.revisiontracker.util.SpacedRepetition
 
 class TopicAdapter(
     private val topics: List<Topic>,
-    private val onClick: (Topic) -> Unit
+    private val onClick: (Topic) -> Unit,
+    private val onLongClick: (Topic) -> Unit
 ) : RecyclerView.Adapter<TopicAdapter.VH>() {
 
     class VH(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,6 +40,10 @@ class TopicAdapter(
             "Not scheduled yet"
 
         holder.itemView.setOnClickListener { onClick(topic) }
+        holder.itemView.setOnLongClickListener {
+            onLongClick(topic)
+            true
+        }
     }
 
     override fun getItemCount() = topics.size
