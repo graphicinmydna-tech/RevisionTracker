@@ -11,6 +11,6 @@
     <color name="text_secondary">#9B9B9F</color>
     <color name="text_tertiary">#6E6E73</color>
 
-    <color name="done">#66BB6A</color>
-    <color name="pending">#EF5350</color>
+    <color name="done">#00C68D</color>
+    <color name="pending">#FFC94D</color>
 </resources>
