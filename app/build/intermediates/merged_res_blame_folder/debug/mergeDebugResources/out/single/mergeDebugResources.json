@@ -1,0 +1,70 @@
+[
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_bg_chip.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/bg_chip.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_restore.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_restore.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_notification.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/menu_dashboard_menu.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/menu/dashboard_menu.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_add.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_backup.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_backup.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_item_subject.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/item_subject.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_item_section_header.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/item_section_header.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_item_milestone.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/item_milestone.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_item_topic.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/item_topic.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/drawable_ic_clock.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/drawable/ic_clock.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_activity_topic_list.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/activity_topic_list.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_activity_milestone.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/activity_milestone.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_dialog_add_topic.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/dialog_add_topic.xml"
+    },
+    {
+        "merged": "com.bcs.revisiontracker.app-debug-32:/layout_activity_dashboard.xml.flat",
+        "source": "com.bcs.revisiontracker.app-main-34:/layout/activity_dashboard.xml"
+    }
+]
