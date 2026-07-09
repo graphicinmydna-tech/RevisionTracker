@@ -43,19 +43,20 @@ class MilestoneActivity : AppCompatActivity() {
         val subjects = prefs.loadSubjects()
         val topic = prefs.findTopic(subjects, subjectName, topicId) ?: return finish()
 
-        supportActionBar?.title = topic.title
-        binding.textTopicHeader.text = "${topic.title}  ·  ${topic.category}"
+        supportActionBar?.title = ""
+        binding.textTopicHeader.text = topic.title
+        binding.textTopicCategory.text = topic.category
 
         binding.recyclerMilestones.adapter = MilestoneAdapter(topic.milestones) { milestone, _ ->
-            val nextDueLabel = SpacedRepetition.completeRoundAndScheduleNext(topic, milestone.round)
+            val hour = if (prefs.hasReminderTime()) prefs.getReminderHour() else 9
+            val minute = if (prefs.hasReminderTime()) prefs.getReminderMinute() else 0
+            val nextDueLabel = SpacedRepetition.completeRoundAndScheduleNext(topic, milestone.round, hour, minute)
             prefs.saveSubjects(subjects)
 
-            // Fire the immediate high-priority confirmation alert.
             NotificationHelper.notifyMilestoneCompleted(
                 this, subjectName, topic.title, milestone.round, nextDueLabel
             )
 
-            // Arm the alarm for the newly-unlocked next round, if any.
             val next = topic.milestones.firstOrNull { it.round == milestone.round + 1 }
             if (next != null && next.dueAtEpochMillis > 0) {
                 ReminderScheduler.schedule(this, subjectName, topic.title, next.round, next.dueAtEpochMillis)
