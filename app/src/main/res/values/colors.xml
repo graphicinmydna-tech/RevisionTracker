@@ -1,16 +1,16 @@
 <resources>
-    <color name="primary">#2E7D32</color>
+    <color name="primary">#59B292</color>
     <color name="primary_dark">#1D2128</color>
-    <color name="accent">#F9A825</color>
+    <color name="accent">#FFC94D</color>
 
     <color name="background">#1D2128</color>
     <color name="surface">#215E61</color>
-    <color name="surface_alt">#215E61</color>
+    <color name="surface_alt">#A2CB8B</color>
 
     <color name="text_primary">#F2F2F2</color>
     <color name="text_secondary">#9B9B9F</color>
     <color name="text_tertiary">#6E6E73</color>
 
     <color name="done">#00C68D</color>
-    <color name="pending">#FFC94D</color>
+    <color name="pending">#C44545</color>
 </resources>
