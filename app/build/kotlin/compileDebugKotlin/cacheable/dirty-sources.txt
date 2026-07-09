@@ -5,7 +5,6 @@
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/util/RevisionStats.kt
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/receiver/DailyDigestReceiver.kt
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/util/NotificationHelper.kt
-/workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/receiver/ReminderReceiver.kt
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/util/DailyDigestScheduler.kt
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/ui/TopicListActivity.kt
 /workspaces/RevisionTracker/app/src/main/java/com/bcs/revisiontracker/ui/TopicAdapter.kt
