@@ -13,4 +13,5 @@
 
     <color name="done">#00C68D</color>
     <color name="pending">#C44545</color>
+    <color name="due_alert">#FF3B30</color>
 </resources>
