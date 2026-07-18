@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bcs.revisiontracker.R
 import com.bcs.revisiontracker.data.Topic
+import com.bcs.revisiontracker.util.RevisionStats
 import com.bcs.revisiontracker.util.SpacedRepetition
+import com.google.android.material.card.MaterialCardView
 
 class TopicAdapter(
     private val topics: List<Topic>,
@@ -16,6 +18,7 @@ class TopicAdapter(
 ) : RecyclerView.Adapter<TopicAdapter.VH>() {
 
     class VH(view: View) : RecyclerView.ViewHolder(view) {
+        val card: MaterialCardView = view as MaterialCardView
         val title: TextView = view.findViewById(R.id.textTopicTitle)
         val category: TextView = view.findViewById(R.id.textTopicCategory)
         val nextDue: TextView = view.findViewById(R.id.textTopicNextDue)
@@ -38,6 +41,14 @@ class TopicAdapter(
             "All 5 rounds complete"
         else
             "Not scheduled yet"
+
+        val strokeWidthPx = (2 * holder.itemView.resources.displayMetrics.density).toInt()
+        if (RevisionStats.isTopicDueToday(topic)) {
+            holder.card.strokeWidth = strokeWidthPx
+            holder.card.strokeColor = holder.itemView.context.getColor(R.color.due_alert)
+        } else {
+            holder.card.strokeWidth = 0
+        }
 
         holder.itemView.setOnClickListener { onClick(topic) }
         holder.itemView.setOnLongClickListener {
